@@ -1,0 +1,186 @@
+﻿@using ECommerce_Website.Models
+
+
+<!-- ab hum session use kr skty hein -->
+<!-- Start All Title Box -->
+
+@{
+    int row = 0; int totalQt = 0;
+    decimal totalBill = 0;
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Cart</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active">Cart</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End All Title Box -->
+<!-- Start Cart  -->
+<div class="cart-box-main">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="table-main table-responsive">
+                    <table class="table table-danger table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Images</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @if (Session["myCart"] != null)
+
+                            {
+
+                                foreach (var item in (List<Product>)Session["myCart"])
+                                {
+                                    <tr>
+                                        <td class="thumbnail-img">
+                                            <a href="#">
+                                                <img class="img-fluid" src="@Url.Content(item.Product_Picture)" alt="" />
+                                            </a>
+                                        </td>
+                                        <td class="name-pr">
+                                            <a href="#">
+                                                @item.Product_Name
+                                            </a><br />
+                                            <h4>@item.Product_Description</h4>
+                                        </td>
+                                        <td class="price-pr">
+                                            <b>Rs @item.Product_SalePrice</b>
+                                        </td>
+                                        <td class="quantity-box">
+                                            <a href="@Url.Action("MinusFromCart", "Home", new { RowNo = row })" class="btn btn-danger btn-sm fa fa-minus"></a>
+                                            <p>  @item.Pro_Quantity</p>
+                                            <a href=" @Url.Action("PlusToCart", "Home", new { RowNo = row })" class="btn btn-danger  btn-sm fa fa-plus"></a>
+                                        </td>
+                                        <td class="total-pr">
+                                            <b>@(decimal.Parse(item.Product_SalePrice.ToString()) * int.Parse(item.Pro_Quantity.ToString()))</b>
+                                        </td>
+                                        <td class="remove-pr">
+                                            <a href="@Url.Action("RemoveFromCart", "Home", new { RowNo = row })">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    row++;
+                                    totalQt += item.Pro_Quantity;
+                                    totalBill += (decimal.Parse(item.Product_SalePrice.ToString()) * int.Parse(item.Pro_Quantity.ToString()));
+
+                                }
+
+                            }
+                            @if (Session["myCart"] == null || row == 0)
+                            {
+                                <tr>
+                                    <td colspan="6" align="center">
+                                        <b style="color:red;font-size:large">Your Shopping Cart is empty<a href="@Url.Action("Shop", "Home")">Click Here</a>To Buy Produts</b>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><b>@totalQt</b></td>
+                                <td><b>@totalBill</b></td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @using (Html.BeginForm("OrderBooked", "Home"))
+        {
+            <div class="row my-5 ">
+                <div class="col-lg-6 col-sm-12">
+                    <div class="order-box">
+                        <h3>Customer Details</h3>
+                        <div class="d-flex">
+                            <input name="Order_Name" type="text" required placeholder="Enter Customer Name" class="form-control" />
+                        </div>
+                        <hr /><div class="d-flex">
+                            <input name="Order_Email" type="email" required placeholder="Enter Customer Email" class="form-control"/>
+                        </div>
+                        <hr>
+                        <div class="d-flex">
+                            <input name="Order_Phone" type="text" required placeholder="Enter Customer Phone_No" class="form-control"/>
+                        </div>
+
+                        <hr />  <div class="d-flex">
+                            <textarea name="Order_Address" type="text" required placeholder="Enter Customer Address" class="form-control"></textarea>
+                        </div>
+                        <hr />
+                        <div>
+                            Please Provide Correct Information
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <div class="order-box">
+                        <b style="color:crimson;font-size:large">Order summary</b>
+                        <div class="d-flex">
+                            <h4>Sub Total</h4>
+                            <div class="ml-auto font-weight-bold"> Rs. @totalBill </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Discount</h4>
+                            <div class="ml-auto font-weight-bold"> Rs.0 </div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Coupon Discount</h4>
+                            <div class="ml-auto font-weight-bold"> Rs.0 </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Tax</h4>
+                            <div class="ml-auto font-weight-bold"> Rs. 0 </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Shipping Cost</h4>
+                            <div class="ml-auto font-weight-bold"> Free </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5"> @totalBill </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="col-12 d-flex shopping-box"><input type="submit" value="Checkout and Pay Now" class="ml-auto btn hvr-hover"></div>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+
+<!-- End Cart -->
+<script type="text/javascript">
+    window.onload = function () {
+        window.scrollBy(0, 180);
+    }
+</script>

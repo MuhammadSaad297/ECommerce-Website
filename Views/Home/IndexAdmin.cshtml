@@ -1,0 +1,57 @@
+﻿@using ECommerce_Website.Models;
+
+@{ 
+    Model1 db = new Model1();
+}
+                <hr />
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-red set-icon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text">@db.Admins.Count() Admin</p>
+                                <p class="text-muted">Active Account</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-green set-icon">
+                                <i class="fa fa-bars"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text">@db.Products.Count() Product</p>
+                                <p class="text-muted">For Sale</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-blue set-icon">
+                                <i class="fa fa-rocket"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text">@db.OrderDetails.Count()</p>
+                                <p class="text-muted">Notification</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="panel panel-back noti-box">
+                            <span class="icon-box bg-color-brown set-icon">
+                                <i class="fa fa-rocket"></i>
+                            </span>
+                            <div class="text-box">
+                                <p class="main-text">@db.Orders.Count() Orders</p>
+                                <p class="text-muted">Sale Order</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+                <hr />
+               
+                <!-- /. ROW  -->
+            
